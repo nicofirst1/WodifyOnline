@@ -1,0 +1,66 @@
+<div class="main">
+
+	<div>
+		<input type="button" value="New" onclick="new_wod()">
+		<input type="button" value="Load" onclick="load_wods()">
+
+	</div>
+	<br>
+	<br>
+
+	<div class="new_wod_form" id="new_wod_form_id">
+
+		<label for="wod_name">Name:</label>
+		<input type="text" id="wod_name" name="wod_name"><br><br>
+
+		<h4>Time frequency</h4>
+		<label for="time_min">Min:</label>
+		<input type="number" id="time_min" name="time_min">
+		<label for="time_max">Max:</label>
+		<input type="number" id="time_max" name="time_max"><br><br>
+
+		<h4>Repetitions</h4>
+		<label for="freq_min">Min:</label>
+		<input type="number" id="freq_min" name="freq_min">
+		<label for="freq_max">Max:</label>
+		<input type="number" id="freq_max" name="freq_max"><br><br>
+
+		<input type="submit" value="Save" onclick="save_new_wod()">
+
+	</div>
+
+	<div class="wods_loads" id="wods_loads_id" >
+		<table width="800" id="wods_table">
+			<tr>
+				<th>Name</th>
+				<th>Time Min</th>
+				<th>Time Max</th>
+				<th>Rep Min</th>
+				<th>Rep Max</th>
+			</tr>
+
+		</table>
+
+	</div>
+
+	<div>
+		<input type="button" value="Start" onclick="start_wod()">
+		<input type="button" value="Stop" onclick="stop_wod()">
+
+	</div>
+	
+	<div class="wods_running" id="wods_running_id" >
+		<table  width="400" id="wods_running_table">
+			<tr>
+				<th>Name</th>
+				<th>Repetitions</th>
+				<th>Next</th>
+			</tr>
+
+		</table>
+
+	</div>
+
+	<br>
+	
+</div>
