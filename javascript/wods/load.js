@@ -7,6 +7,7 @@ function insert_tr(table, wods) {
 		var wod_csv = wod_csv.split(",");
 
 		row.id = wod_csv;
+		row.data = wod_csv;
 		var count = wod_csv.length;
 
 		for (var i = 0; i < count; i++) {

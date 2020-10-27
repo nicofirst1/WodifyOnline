@@ -11,10 +11,8 @@ function insert_running_tr(table, wods) {
         // insert a single row of csv wod
 
 
-        row.data = wod.join(",");
-        wod=random_wod(wod);
-        row.id=wod.join(",")
-        setInterval(update(row),1000);
+        row.id = wod.join(",")
+        setInterval(update(row), 1000);
         var count = wod.length;
 
         for (var i = 0; i < count; i++) {
@@ -22,19 +20,23 @@ function insert_running_tr(table, wods) {
             cell.innerHTML = wod[i];
 
         }
+        row.insertCell(i).innerHTML = "-";
     }
 
     var count = wods.length;
     for (var i = 0; i < count; i++) {
 
+        let wod = random_wod(wods[i]);
+
         // check if id has not yet been add
-        if (document.getElementById(wods[i].join(","))) {
+        if (document.getElementById(wod.join(","))) {
             continue;
         }
 
         // init row
         var row = table.insertRow(1);
-        insert_td(row, wods[i]);
+        row.data = wods[i].join(",");
+        insert_td(row, wod);
         row.onclick = clicked_row(row);
         row.classList.add("unselected_wod_row")
 
@@ -65,7 +67,7 @@ function start_wod() {
     //extract wod and change class to running
     while (selected_rows.length) {
         var row = selected_rows[0];
-        var wod = row.id.split(',');
+        var wod = row.data.split(',');
         console.log(wod);
         row.classList.replace("selected_wod_row", "running_wod_row");
 
@@ -77,39 +79,44 @@ function start_wod() {
     insert_running_tr(table, wods);
 
     // hide selection and show running
-    var form = document.getElementById("wods_loads_id");
-    form.style.display = "none";
-
-    var form = document.getElementById("wods_running_id");
-    form.style.display = "block";
+    document.getElementById("wods_loads_id").style.display = "none";
+    document.getElementById("wods_running_id").style.display = "block";
 }
 
-function update(row){
+function update(row) {
     // function to update a row every second
-    var inter=setInterval(inner_update,1000)
+    var inter = setInterval(inner_update, 1000)
 
-    function inner_update(){
+    function inner_update() {
 
-        var cur_time= parseInt(row.cells[2].innerHTML);
-        if (cur_time==0){
-            setTimeout(time_end(row), 1);
-            clearInterval(inter);
-        }else{
-            cur_time-=1;
-            row.cells[2].innerHTML=cur_time;
+        var cur_time = parseInt(row.cells[2].innerHTML);
+        if (cur_time === 0) {
+            setTimeout(time_end(row, inter), 1);
+        } else {
+            cur_time -= 1;
+            row.cells[2].innerHTML = cur_time;
         }
 
     }
 }
 
-function time_end(row){
-    if(confirm(row.id)){
+function time_end(row, inter) {
+    const prev_rep = parseInt(row.cells[1].innerHTML);
+    if (confirm(row.id)) {
         console.log(row.data);
-        var wod=random_wod(row.id.split(','));
-        row.cells[1].innerHTML=wod[1];
-        row.cells[2].innerHTML=wod[2];
-    }else{
+        var wod = random_wod(row.data.split(','));
+        row.cells[1].innerHTML = wod[1];
+        row.cells[2].innerHTML = wod[2];
+
+    } else {
         console.log("no");
+        clearInterval(inter);
+    }
+    if (row.cells[3].innerHTML === "-") {
+        row.cells[3].innerHTML = prev_rep;
+    } else {
+        row.cells[3].innerHTML = parseInt(row.cells[3].innerHTML) + prev_rep;
 
     }
+
 }
